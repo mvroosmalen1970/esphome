@@ -29,28 +29,15 @@ api:
 
 ota:
   - platform: esphome
-    password: "132b459e2d322bc4998fac1f35ebe769"
+    password: ""
 
 packages:
   wifi: !include common/wifi.yaml 
-#  remote_package_files:
-#    url: https://github.com/mvroosmalen1970/watermeter.git
-#    files: [components/main.yaml]
-#    ref: main
-#    refresh: 0d
+  remote_package_files:
+    url: https://github.com/mvroosmalen1970/watermeter.git
+    files: [components/main.yaml]
+    ref: main
+    refresh: 0d
 
 # bluetooth_proxy:
     
-switch:
-  - platform: gpio
-    pin:
-      number: GPIO8
-      inverted: True
-    name: "Esp32Led"
-    
-sensor:
-  - platform: wifi_signal
-    name: "WiFi Signal Sensor"
-    update_interval: 60s
-
-
