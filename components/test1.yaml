@@ -52,7 +52,7 @@ binary_sensor:
     id: internal_pulse_counter
     name: Pulse Sensor Water
     pin:
-      number: gpio4
+      number: GPIO4
       allow_other_uses: true
       inverted: true
       mode:
@@ -65,7 +65,7 @@ sensor:
 # ⬇ watermeter pulsen ⬇ #
   - platform: pulse_counter
     pin:
-      number: gpio4
+      number: GPIO4
       allow_other_uses: true
     id: watermeter_pulse
     name: "watermeter pulse"
