@@ -1,3 +1,6 @@
+substitutions:
+  name: watermeter
+  vdate: "v25.5.1"
 # Enable Home Assistant API
 # Set pulse counter total from home assistant using this service call:
 api:
