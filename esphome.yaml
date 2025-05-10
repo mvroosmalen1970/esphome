@@ -1,4 +1,4 @@
-substitutions:
+homesubstitutions:
   name: watermeter
   vdate: "v25.5.1"
 
@@ -34,8 +34,8 @@ ota:
 packages:
   wifi: !include common/wifi.yaml 
   remote_package_files:
-    url: https://github.com/mvroosmalen1970/watermeter.git
-    files: [components/main.yaml]
+    url: https://github.com/mvroosmalen1970/esphome.git
+    files: [components/watermeter.yaml]
     ref: main
     refresh: 0d
 
