@@ -1,0 +1,40 @@
+#DS18B20
+one_wire:
+  - platform: gpio
+    pin: GPIO2
+    id: x1
+
+sensor:
+  - platform: wifi_signal
+    name: "WiFi Signal Sensor"
+    update_interval: 60s
+  # Uptime in seconds
+  - platform: uptime
+    name: "uptime"
+    id: uptime_seconds
+    update_interval: 10s
+- platform: dallas_temp
+    one_wire_id: x1     
+    address: 0x470417b2ed80ff28
+    name: "Vijver temperature"
+    update_interval: 3s
+    filters:
+      - sliding_window_moving_average:
+          window_size: 10
+          send_every: 10
+          send_first_at: 1    
+  - platform: ultrasonic
+    trigger_pin: GPIO14 #tx
+    echo_pin: GPIO12    #echo/rx
+    name: "Vijver Sensor"
+    pulse_time: 10us
+    accuracy_decimals: 2
+    unit_of_measurement: cm
+    update_interval: 30s
+    timeout: 4.0m
+    filters:
+      - multiply: 100
+      - median:
+          window_size: 20
+          send_every: 20
+          send_first_at: 3    
