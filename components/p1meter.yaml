@@ -1,0 +1,169 @@
+#P1 Meter v25.5.1
+api:
+  services:
+    service: set_dsmr_key
+    variables:
+      private_key: string
+    then:
+      - logger.log:
+          format: Setting private key %s. Set to empty string to disable
+          args: [private_key.c_str()]
+      - globals.set:
+          id: has_key
+          value: !lambda "return private_key.length() == 32;"
+      - lambda: |-
+          if (private_key.length() == 32)
+            private_key.copy(id(stored_decryption_key), 32);
+          id(dsmr_instance).set_decryption_key(private_key);
+ uart:
+  baud_rate: 115200
+  rx_pin:
+    number: GPIO20
+    inverted: true
+  rx_buffer_size: 1500
+
+  globals:
+  - id: has_key
+    type: bool
+    restore_value: yes
+    initial_value: "false"
+  - id: stored_decryption_key
+    type: char[32]
+    restore_value: yes
+ 
+dsmr:
+  crc_check: false
+  id: dsmr_instance
+ 
+sensor:
+  - platform: dsmr
+    energy_delivered_tariff1:
+      name: energy_delivered_tariff1
+      filters:
+        - throttle: 15s
+    energy_delivered_tariff2:
+      name: energy_delivered_tariff2
+      filters:
+        - throttle: 15s
+    energy_returned_tariff1:
+      name: energy_returned_tariff1
+      filters:
+        - throttle: 15s
+    energy_returned_tariff2:
+      name: energy_returned_tariff2
+      filters:
+        - throttle: 15s
+    power_delivered:
+      name: power_delivered
+      filters:
+        - throttle: 15s
+    power_returned:
+      name: power_returned
+      filters:
+        - throttle: 15s
+    electricity_failures:
+      name: electricity_failures
+      filters:
+        - throttle: 360s
+    electricity_long_failures:
+      name: electricity_long_failures
+      filters:
+        - throttle: 360s
+    voltage_l1:
+      name: voltage_l1
+      filters:
+        - throttle: 120s
+    current_l1:
+      name: current_l1
+      filters:
+        - throttle: 120s
+    electricity_sags_l1:
+      name: electricity_sags_l1
+      filters:
+        - throttle: 120s
+    electricity_swells_l1:
+      name: electricity_swells_l1
+      filters:
+        - throttle: 120s
+    power_delivered_l1:
+      name: power_delivered_l1
+      filters:
+        - throttle: 120s 
+    power_returned_l1:
+      name: power_returned_l1
+      filters:
+        - throttle: 120s
+    voltage_l2:
+      name: voltage_l2
+      filters:
+        - throttle: 120s
+    current_l2:
+      name: current_l2
+      filters:
+        - throttle: 120s
+    electricity_sags_l2:
+      name: electricity_sags_l2
+      filters:
+        - throttle: 120s
+    electricity_swells_l2:
+      name: electricity_swells_l2
+      filters:
+        - throttle: 120s
+    power_delivered_l2:
+      name: power_delivered_l2
+      filters:
+        - throttle: 120s 
+    power_returned_l2:
+      name: power_returned_l2
+      filters:
+        - throttle: 120s
+    voltage_l3:
+      name: voltage_l3
+      filters:
+        - throttle: 120s
+    current_l3:
+      name: current_l3
+      filters:
+        - throttle: 120s
+    electricity_sags_l3:
+      name: electricity_sags_l3
+      filters:
+        - throttle: 120s
+    electricity_swells_l3:
+      name: electricity_swells_l3
+      filters:
+        - throttle: 120s
+    power_delivered_l3:
+      name: power_delivered_l3
+      filters:
+        - throttle: 120s 
+    power_returned_l3:
+      name: power_returned_l3
+      filters:
+        - throttle: 120s
+    gas_delivered:
+      name: gas_delivered
+      filters:
+        - throttle: 60s
+  - platform: uptime
+    name: "SlimmeLezer Uptime"
+  - platform: wifi_signal
+    name: "SlimmeLezer Wi-Fi Signal"
+    update_interval: 60s
+ 
+text_sensor:
+  - platform: dsmr
+    identification:
+      name: "DSMR Identification"
+    p1_version:
+      name: "DSMR Version"
+  - platform: wifi_info
+    ip_address:
+      name: "SlimmeLezer IP Address"
+    ssid:
+      name: "SlimmeLezer Wi-Fi SSID"
+    bssid:
+      name: "SlimmeLezer Wi-Fi BSSID"
+  - platform: version
+    name: "ESPHome Version"
+    hide_timestamp: true
