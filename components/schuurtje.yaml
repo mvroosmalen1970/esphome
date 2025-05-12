@@ -1,0 +1,14 @@
+# Schuur v25.5.1
+binary_sensor:
+  - platform: gpio
+    name: "Deur schuurtje"
+    device_class: door
+    pin:
+      number: GPIO0 
+#      mode: INPUT_PULLUP
+  - platform: gpio
+    pin: GPIO2 
+    name: "PIR Sensor schuur"
+    device_class: motion
+    
+    
