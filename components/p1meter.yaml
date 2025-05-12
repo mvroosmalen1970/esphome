@@ -15,14 +15,15 @@ api:
           if (private_key.length() == 32)
             private_key.copy(id(stored_decryption_key), 32);
           id(dsmr_instance).set_decryption_key(private_key);
- uart:
+
+uart:
   baud_rate: 115200
   rx_pin:
     number: GPIO20
     inverted: true
   rx_buffer_size: 1500
 
-  globals:
+globals:
   - id: has_key
     type: bool
     restore_value: yes
