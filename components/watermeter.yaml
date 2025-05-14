@@ -1,4 +1,5 @@
-# Enable Home Assistant API
+# watermeter v25.5.2
+# Enable Home Assistant API 
 # Set pulse counter total from home assistant using this service call:
 api:
   services:
@@ -13,13 +14,6 @@ api:
             id: total_water_pulses
             value:  "10"
 text_sensor:
-  - platform: template
-    name: "watermeter - versie"
-    id: versie
-    icon: 'mdi:alpha-v-circle-outline' 
-    update_interval: 6h
-    lambda: |-
-      return "v25.5.1";
   - platform: wifi_info
     ip_address:
       name: "watermeter IP-adres"
