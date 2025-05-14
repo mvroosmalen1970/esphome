@@ -1,24 +1,9 @@
-
+#waterput v25.1.1
 
 sensor:
   - platform: ultrasonic
-    trigger_pin: GPIO1 #tx geel
-    echo_pin: GPIO3    #echo/rx groen
-    name: "Vijver Sensor"
-    #pulse_time: 40us
-    accuracy_decimals: 2
-    unit_of_measurement: cm
-    update_interval: 10s
-    timeout: 4.0m
-    filters:
-      - multiply: 100
-      - median:
-          window_size: 20
-          send_every: 20
-          send_first_at: 3
-  - platform: ultrasonic
     trigger_pin: GPIO17    #echo/tx oranje
-    echo_pin: GPIO16 #rx geel
+    echo_pin: GPIO16       #rx      geel
     name: "Vijver Sensor2"
     pulse_time: 10us
     accuracy_decimals: 2
