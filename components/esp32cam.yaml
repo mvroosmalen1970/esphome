@@ -6,7 +6,7 @@ esphome:
         - lambda: |- 
             id(versie).publish_state("v25.5.1");
 api:
-services:  # change camera parameters on-the-fly
+  services:  # change camera parameters on-the-fly
   - service: camera_set_param
     variables:
       name: string
