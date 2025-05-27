@@ -1,0 +1,148 @@
+# esp32cam
+esphome:
+  on_boot:
+    - priority: -10
+      then: 
+        - lambda: |- 
+            id(versie).publish_state("v25.5.1");
+api:
+services:  # change camera parameters on-the-fly
+  - service: camera_set_param
+    variables:
+      name: string
+      value: int
+    then:
+      - lambda: |-
+          bool state_return = false;
+          if (("contrast" == name) && (value >= -2) && (value <= 2)) { id(espcam).set_contrast(value); state_return = true; }
+          if (("brightness" == name) && (value >= -2) && (value <= 2)) { id(espcam).set_brightness(value); state_return = true; }
+          if (("saturation" == name) && (value >= -2) && (value <= 2)) { id(espcam).set_saturation(value); state_return = true; }
+          if (("special_effect" == name) && (value >= 0U) && (value <= 6U)) { id(espcam).set_special_effect((esphome::esp32_camera::ESP32SpecialEffect)value); state_return = true; }
+          if (("aec_mode" == name) && (value >= 0U) && (value <= 1U)) { id(espcam).set_aec_mode((esphome::esp32_camera::ESP32GainControlMode)value); state_return = true; }
+          if (("aec2" == name) && (value >= 0U) && (value <= 1U)) { id(espcam).set_aec2(value); state_return = true; }
+          if (("ae_level" == name) && (value >= -2) && (value <= 2)) { id(espcam).set_ae_level(value); state_return = true; }
+          if (("aec_value" == name) && (value >= 0U) && (value <= 1200U)) { id(espcam).set_aec_value(value); state_return = true; }
+          if (("agc_mode" == name) && (value >= 0U) && (value <= 1U)) { id(espcam).set_agc_mode((esphome::esp32_camera::ESP32GainControlMode)value); state_return = true; }
+          if (("agc_value" == name) && (value >= 0U) && (value <= 30U)) { id(espcam).set_agc_value(value); state_return = true; }
+          if (("agc_gain_ceiling" == name) && (value >= 0U) && (value <= 6U)) { id(espcam).set_agc_gain_ceiling((esphome::esp32_camera::ESP32AgcGainCeiling)value); state_return = true; }
+          if (("wb_mode" == name) && (value >= 0U) && (value <= 4U)) { id(espcam).set_wb_mode((esphome::esp32_camera::ESP32WhiteBalanceMode)value); state_return = true; }
+          if (("test_pattern" == name) && (value >= 0U) && (value <= 1U)) { id(espcam).set_test_pattern(value); state_return = true; }
+          if (true == state_return) {
+            id(espcam).update_camera_parameters();
+          }
+          else {
+            ESP_LOGW("esp32_camera_set_param", "Error in name or data range");
+          }
+esp32_camera_web_server:
+  - port: 81
+    mode: stream
+  - port: 82
+    mode: snapshot
+text_sensor:
+  - platform: template
+    name: "esp32cam - versie"
+    id: versie
+    icon: 'mdi:alpha-v-circle-outline' 
+    update_interval: 6h
+  - platform: wifi_info
+    ip_address:
+      name: "esp32cam IP-adres"
+      id: ip_adres
+      icon: mdi:ip-network
+    ssid:
+      name: "esp32cam Netwerk"
+      id: netwerk
+      icon: mdi:access-point-network
+    mac_address:
+      name: "esp32cam Mac-adres"
+      id: mac_adres
+      icon: mdi:folder-key-network-outline
+time:
+  - platform: homeassistant
+    id: time_homeassistant
+    on_time_sync:
+      - component.update: uptime_timestamp
+# bluetooth_proxy:
+esp32_camera:
+  id: espcam
+  name: esp-cam
+  internal: True
+  external_clock:
+    pin: GPIO0
+    frequency: 20MHz
+  i2c_pins:
+    sda: GPIO26
+    scl: GPIO27
+  data_pins: [GPIO5, GPIO18, GPIO19, GPIO21, GPIO36, GPIO39, GPIO34, GPIO35]
+  vsync_pin: GPIO25
+  href_pin: GPIO23
+  pixel_clock_pin: GPIO22
+  power_down_pin: GPIO32
+  resolution: 800X600
+  jpeg_quality: 20  # max. 63
+  max_framerate: 3fps
+  idle_framerate: 0.1fps
+  vertical_flip: False
+  horizontal_mirror: False
+  brightness: 2 # -2 to 2
+  contrast: 1 # -2 to 2
+  special_effect: none
+  # exposure settings
+  aec_mode: auto
+  aec2: false
+  ae_level: 0
+  aec_value: 300
+  # gain settings
+  agc_mode: auto
+  agc_gain_ceiling: 2x
+  agc_value: 0
+  # white balance setting
+  wb_mode: auto
+output:
+# white LED
+  - platform: ledc
+    channel: 2
+    pin: GPIO4
+    id: espCamLED
+# red status light
+  - platform: gpio
+    pin:
+      number: GPIO33
+      inverted: True
+    id: gpio_33
+light:
+  - platform: monochromatic
+    output: espCamLED
+    name: esp-cam light
+  - platform: binary
+    output: gpio_33
+    name: esp-cam led
+sensor:
+  - platform: uptime
+    id: "esp32cam_uptime"
+  - platform: template
+    id: uptime_timestamp
+    name: "esp32cam online sinds"
+    device_class: "timestamp"
+    accuracy_decimals: 0
+    update_interval: never
+    icon: 'mdi:clock-start' 
+    lambda: |-
+      static float timestamp = (
+        id(time_homeassistant).utcnow().timestamp - id(esp32cam_uptime).state
+      );
+      return timestamp;  
+# versie verbinding informatie sensoren voor in ha #
+  # WiFi signal
+  - platform: wifi_signal
+    name: "esp32cam - WiFi Signal"
+    update_interval: 120s
+#  restart button  #
+button:  
+  - platform: restart
+    name: "esp32cam Restart device"   
+  - platform: factory_reset
+    name: Restart with Factory Default Settings    
+binary_sensor:
+  - platform: status
+    name: esp-cam status
