@@ -98,7 +98,6 @@ sensor:
       number: GPIO4
       allow_other_uses: true
     id: watermeter_pulse
-    internal_filter: 100ms
     name: "watermeter pulse"
     state_class: measurement
     unit_of_measurement: "l/min"    
