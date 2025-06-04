@@ -4,7 +4,7 @@ esphome:
     - priority: -10
       then: 
         - lambda: |- 
-            id(versie).publish_state("v25.5.2");
+            id(versie).publish_state("v25.6.1");
 
 # Enable Home Assistant API 
 # Set pulse counter total from home assistant using this service call:
@@ -79,6 +79,8 @@ binary_sensor:
   - platform: gpio
     id: internal_pulse_counter
     name: Pulse Sensor Water
+    filters:
+      settle: 100ms
     pin:
       number: GPIO4
       allow_other_uses: true
@@ -96,6 +98,7 @@ sensor:
       number: GPIO4
       allow_other_uses: true
     id: watermeter_pulse
+    internal_filter: 100ms
     name: "watermeter pulse"
     state_class: measurement
     unit_of_measurement: "l/min"    
