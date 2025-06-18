@@ -29,7 +29,10 @@ one_wire:
   - platform: gpio
     pin: GPIO2
     id: x1
-
+#  restart button  #
+button:  
+  - platform: restart
+    name: "Restart device"
 sensor:
   - platform: wifi_signal
     name: "WiFi Signal Sensor"
