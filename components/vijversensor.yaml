@@ -4,7 +4,7 @@ esphome:
     - priority: -10
       then: 
         - lambda: |- 
-            id(versie).publish_state("v25.5.2");
+            id(versie).publish_state("v25.6.1");
 external_components:
   - source: github://nrandell/dallasng
 
@@ -56,7 +56,7 @@ sensor:
     index: 0
     name: "Vijver temperature"
     resolution: 12
-    expire_after: 1000s
+    #expire_after: 1000s
     filters:
       - filter_out: NAN
       - sliding_window_moving_average:
