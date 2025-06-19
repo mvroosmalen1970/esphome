@@ -36,6 +36,18 @@ text_sensor:
       name: "watermeter Mac-adres"
       id: mac_adres
       icon: mdi:folder-key-network-outline
+dallasng:
+  - pin: GPIO2
+    update_interval: 3s
+
+sensor:
+  - platform: dallasng
+    index: 0
+    name: Temperature
+    resolution: 12
+    expire_after: 1000s
+    filters:
+      - filter_out: NAN
 
 #DS18B20
 one_wire:
