@@ -38,22 +38,7 @@ text_sensor:
       icon: mdi:folder-key-network-outline
 dallasng:
   - pin: GPIO2
-    update_interval: 3s
-
-sensor:
-  - platform: dallasng
-    index: 0
-    name: Temperature
-    resolution: 12
-    expire_after: 1000s
-    filters:
-      - filter_out: NAN
-
-#DS18B20
-one_wire:
-  - platform: gpio
-    pin: GPIO2
-    id: x1
+    update_interval: 3s   
 #  restart button  #
 button:  
   - platform: restart
@@ -67,12 +52,13 @@ sensor:
     name: "uptime"
     id: uptime_seconds
     update_interval: 10s
-  - platform: dallas_temp
-    one_wire_id: x1     
-    address: 0x470417b2ed80ff28
+  - platform: dallasng  
+    index: 0
     name: "Vijver temperature"
-    update_interval: 3s
+    resolution: 12
+    expire_after: 1000s
     filters:
+      - filter_out: NAN
       - sliding_window_moving_average:
           window_size: 10
           send_every: 10
