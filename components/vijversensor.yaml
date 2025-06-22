@@ -6,18 +6,11 @@ esphome:
         - lambda: |- 
             id(versie).publish_state("v25.5.2");
 external_components:
-  - source: github://nrandell/dallasng
-
-# or this code Please note that this code has no intention to work with ESP32 
-# even though it might work.
-# And there's no guaranties, be prepared to flash with serial cable 
-# if things goes wrong.
-#external_components:
-#  - source: 
-#      type: git
-#      url: https://github.com/erapade-forks/esphome
-#      ref: Testable_in_ESP8266
-#    components: [dallas]
+  - source:
+      type: git
+      url: https://github.com/esphome/esphome
+      ref: 2025.4.2
+    components: [ one_wire, gpio, dallas_temp, esp8266 ]
 text_sensor:
   - platform: template
     name: "watersensor - versie"
