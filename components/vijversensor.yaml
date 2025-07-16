@@ -28,7 +28,7 @@ text_sensor:
 #DS18B20
 one_wire:
   - platform: gpio
-    pin: GPIO2
+    pin: GPIO0
     id: x1
 #  restart button  #
 button:  
