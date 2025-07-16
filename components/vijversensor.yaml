@@ -44,6 +44,7 @@ sensor:
     id: uptime_seconds
     update_interval: 10s
   - platform: dallas_temp
+    address: 0x813c01f0953c7928
     one_wire_id: x1     
     name: "Vijver temperature"
     update_interval: 3s
