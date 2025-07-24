@@ -34,7 +34,7 @@ globals:
  
 dsmr:
   #crc_check: false
-  id: dsmr_instance
+  #id: dsmr_instance
  
 sensor:
   - platform: dsmr
