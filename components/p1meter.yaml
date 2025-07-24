@@ -33,7 +33,7 @@ globals:
     restore_value: yes
  
 dsmr:
-  crc_check: false
+  #crc_check: false
   id: dsmr_instance
  
 sensor:
