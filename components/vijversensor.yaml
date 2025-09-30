@@ -8,20 +8,20 @@ esphome:
 
 text_sensor:
   - platform: template
-    name: "watersensor - versie"
+    name: "vijversensor - versie"
     id: versie
     icon: 'mdi:alpha-v-circle-outline' 
   - platform: wifi_info
     ip_address:
-      name: "watermeter IP-adres"
+      name: "vijversensor IP-adres"
       id: ip_adres
       icon: mdi:ip-network
     ssid:
-      name: "watermeter Netwerk"
+      name: "vijversensor Netwerk"
       id: netwerk
       icon: mdi:access-point-network
     mac_address:
-      name: "watermeter Mac-adres"
+      name: "vijversensor Mac-adres"
       id: mac_adres
       icon: mdi:folder-key-network-outline
 
