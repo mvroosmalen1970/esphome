@@ -144,7 +144,7 @@ sensor:
     icon: 'mdi:clock-start' 
     lambda: |-
       static float timestamp = (
-        id(time_homeassistant).utcnow().timestamp - id(watermeter_uptime).status
+        id(time_homeassistant).utcnow().timestamp - id(watermeter_uptime).state
       );
       return timestamp;  
 # ⬇ versie verbinding informatie sensoren voor in ha ⬇ #
