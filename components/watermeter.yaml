@@ -80,7 +80,7 @@ binary_sensor:
     id: internal_pulse_counter
     name: Pulse Sensor Water
     filters:
-      settle: 100ms
+      - delayed_on_off: 100ms # settle: 100ms
     pin:
       number: GPIO4
       allow_other_uses: true
