@@ -120,6 +120,7 @@ sensor:
     id: watermeter_total
     name: "watermeter stand"
     state_class: total_increasing
+    device_class: water
     icon: mdi:water
     unit_of_measurement: "m³"
     accuracy_decimals: 3
