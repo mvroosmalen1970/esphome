@@ -16,7 +16,7 @@ api:
       then:
         - globals.set:
             id: initial_water_usage
-            value: !lambda "return ( meter_value - (id(total_water_pulses)) * atof(id(Select_pulse_water).state.c_str()) ) ;"
+            value: !lambda "return ( meter_value - (id(total_water_pulses)) * atof(id(Select_pulse_water).current_option())) ;"
         - globals.set:
             id: total_water_pulses
             value:  "10"
@@ -80,7 +80,7 @@ binary_sensor:
     id: internal_pulse_counter
     name: Pulse Sensor Water
     filters:
-      settle: 100ms
+      - delayed_on_off: 100ms # settle: 100ms
     pin:
       number: GPIO4
       allow_other_uses: true
@@ -104,7 +104,7 @@ sensor:
     accuracy_decimals: 1
     icon: "mdi:water-pump"
     filters:
-      lambda: return x * atof(id(Select_pulse_water).state.c_str()) * 1000;
+      lambda: return x * atof(id(Select_pulse_water).current_option()) * 1000;
 # ⬇ Totaal watermeter ⬇ #      
     total:
       id: sensor_pulse_meter_total
@@ -114,21 +114,22 @@ sensor:
       device_class: water
       accuracy_decimals: 3
       filters:
-        lambda: return x * atof(id(Select_pulse_water).state.c_str());
+        lambda: return x * atof(id(Select_pulse_water).current_option());
 # ⬇ Watermeter stand bij benadering ⬇ #
   - platform: template
     id: watermeter_total
     name: "watermeter stand"
-    state_class: "total_increasing"
+    state_class: total_increasing
+    device_class: water
     icon: mdi:water
     unit_of_measurement: "m³"
     accuracy_decimals: 3
-    lambda: return id(initial_water_usage) + (id(total_water_pulses) * atof(id(Select_pulse_water).state.c_str()));
+    lambda: return id(initial_water_usage) + (id(total_water_pulses) * atof(id(Select_pulse_water).current_option()));
 # ⬇ Waterpulses  only web interface for debugging ⬇ #
   - platform: template
     id: watermeter_pulses
     name: "watermeter pulses totaal"
-    state_class: "total_increasing"
+    state_class: total_increasing
     accuracy_decimals: 0
     lambda: return id(total_water_pulses);
     internal: True
@@ -138,7 +139,7 @@ sensor:
   - platform: template
     id: uptime_timestamp
     name: "watermeter online sinds"
-    device_class: "timestamp"
+    device_class: timestamp
     accuracy_decimals: 0
     update_interval: never
     icon: 'mdi:clock-start' 
