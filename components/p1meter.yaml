@@ -1,4 +1,4 @@
-#P1 Meter v25.5.1
+#P1 Meter v26.02.1
 api:
   services:
     service: set_dsmr_key
@@ -14,7 +14,7 @@ api:
       - lambda: |-
           if (private_key.length() == 32)
             private_key.copy(id(stored_decryption_key), 32);
-          id(dsmr_instance).set_decryption_key(private_key);
+          id(dsmr_instance).set_decryption_key(private_key.c_str());
 
 uart:
   baud_rate: 115200
