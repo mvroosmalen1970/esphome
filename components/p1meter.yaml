@@ -13,7 +13,7 @@ api:
           value: !lambda "return private_key.length() == 32;"
       - lambda: |-
           if (private_key.length() == 32)
-            memcpy(id(stored_decryption_key), private_key.data(), 32);
+            memcpy(id(stored_decryption_key), private_key.c_str(), 32);
           id(dsmr_instance).set_decryption_key(private_key.c_str());
 
 
