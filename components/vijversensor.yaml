@@ -67,8 +67,9 @@ sensor:
       - median:
           window_size: 40
           send_every: 1
-      - outlier:
-          threshold: 0.02
+      - sliding_window_moving_average:
+          window_size: 15
+          send_every: 5
       - exponential_moving_average:
           alpha: 0.01
           send_every: 5
