@@ -63,12 +63,12 @@ sensor:
     update_interval: 5s
     timeout: 4.0m
     filters:
-      - multiply: 100
       - filter_out: nan
       - median:
-          window_size: 30
-          send_every: 5
+          window_size: 40
+          send_every: 1
           send_first_at: 5
       - exponential_moving_average:
-          alpha: 0.05
-          send_every: 1
+          alpha: 0.03
+          send_every: 5
+      - multiply: 100
