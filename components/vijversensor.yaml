@@ -67,7 +67,7 @@ sensor:
       - median:
           window_size: 40
           send_every: 1
-          send_first_at: 5
+          send_first_at: 1
       - exponential_moving_average:
           alpha: 0.03
           send_every: 5
