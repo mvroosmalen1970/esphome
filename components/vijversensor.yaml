@@ -4,7 +4,7 @@ esphome:
     - priority: -10
       then: 
         - lambda: |- 
-            id(versie).publish_state("v25.6.3");
+            id(versie).publish_state("v26.5.1");
 
 text_sensor:
   - platform: template
@@ -60,11 +60,14 @@ sensor:
     pulse_time: 10us
     accuracy_decimals: 2
     unit_of_measurement: cm
-    update_interval: 30s
+    update_interval: 5s
     timeout: 4.0m
     filters:
       - multiply: 100
+      - filter_out: nan
       - median:
-          window_size: 20
-          send_every: 20
-          send_first_at: 3    
+          window_size: 30
+          send_every: 5
+          send_first_at: 5
+      - low_pass_filter:
+          alpha: 0.05
