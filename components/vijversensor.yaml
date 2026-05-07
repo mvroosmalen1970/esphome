@@ -69,5 +69,6 @@ sensor:
           window_size: 30
           send_every: 5
           send_first_at: 5
-      - low_pass_filter:
+      - exponential_moving_average:
           alpha: 0.05
+          send_every: 1
