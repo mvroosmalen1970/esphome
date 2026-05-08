@@ -4,7 +4,7 @@ esphome:
     - priority: -10
       then: 
         - lambda: |- 
-            id(versie).publish_state("v25.5.2");
+            id(versie).publish_state("v26.5.1");
 sensor:
   - platform: wifi_signal
     name: "waterput - WiFi Signal"
@@ -19,11 +19,17 @@ sensor:
     update_interval: 10s
     timeout: 4.0m
     filters:
-      - multiply: 100
+      - filter_out: nan
       - median:
-          window_size: 20
-          send_every: 20
-          send_first_at: 3
+          window_size: 40
+          send_every: 1
+      - sliding_window_moving_average:
+          window_size: 15
+          send_every: 5
+      - exponential_moving_average:
+          alpha: 0.01
+          send_every: 5
+      - multiply: 100
           
 binary_sensor: 
   - platform: gpio
