@@ -14,7 +14,7 @@ api:
       - lambda: |-
           if (private_key.length() == 32)
             memcpy(id(stored_decryption_key), private_key.c_str(), 32);
-          id(dsmr_instance).set_decryption_key(private_key.c_str());
+          id(stored_decryption_key)[32] = '\0'; // Zorg voor een correcte null-terminator oude code==>id(dsmr_instance).set_decryption_key(private_key.c_str());
 
 
 uart:
@@ -36,6 +36,11 @@ globals:
 dsmr:
   crc_check: false
   id: dsmr_instance
+  decryption_key: !lambda |-
+    if (id(has_key)) {
+      return std::string(id(stored_decryption_key), 32);
+    }
+    return "";
  
 sensor:
   - platform: dsmr
