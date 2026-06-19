@@ -53,11 +53,6 @@ globals:
 dsmr:
   crc_check: false
   id: dsmr_instance
-  decryption_key: !lambda |-
-    if (id(has_key)) {
-      return std::string(id(stored_decryption_key), 32);
-    }
-    return "";
  
 sensor:
   - platform: dsmr
