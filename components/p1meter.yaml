@@ -1,4 +1,17 @@
 #P1 Meter v26.04.1
+esphome:
+  name: ${device_name}
+  friendly_name: ${device_name}
+  platformio_options:
+    board_build.flash_mode: dio
+  name_add_mac_suffix: false
+  on_boot:
+    priority: 200.0 # Start direct nadat de globals zijn hersteld
+    then:
+      - lambda: |-
+          if (id(has_key)) {
+            id(dsmr_instance).set_decryption_key_(id(stored_decryption_key));
+          }
 api:
   services:
     service: set_dsmr_key
@@ -12,9 +25,13 @@ api:
           id: has_key
           value: !lambda "return private_key.length() == 32;"
       - lambda: |-
-          if (private_key.length() == 32)
+          if (private_key.length() == 32) {
             memcpy(id(stored_decryption_key), private_key.c_str(), 32);
-          id(stored_decryption_key)[32] = '\0'; // Zorg voor een correcte null-terminator oude code==>id(dsmr_instance).set_decryption_key(private_key.c_str());
+            id(stored_decryption_key)[32] = '\0'; 
+            id(dsmr_instance).set_decryption_key_(id(stored_decryption_key));
+          } else {
+            id(dsmr_instance).set_decryption_key_(nullptr);
+          }
 
 
 uart:
