@@ -10,7 +10,7 @@ esphome:
     then:
       - lambda: |-
           if (id(has_key)) {
-            id(dsmr_instance).set_decryption_key(id(stored_decryption_key));
+            id(dsmr_instance).set_decryption_key(std::string(id(stored_decryption_key), 32).c_str());
           }
 api:
   services:
@@ -28,9 +28,9 @@ api:
           if (private_key.length() == 32) {
             memcpy(id(stored_decryption_key), private_key.c_str(), 32);
             id(stored_decryption_key)[32] = '\0'; 
-            id(dsmr_instance).set_decryption_key(id(stored_decryption_key));
+            id(dsmr_instance).set_decryption_key(std::string(id(stored_decryption_key), 32).c_str());
           } else {
-            id(dsmr_instance).set_decryption_key(nullptr);
+            id(dsmr_instance).set_decryption_key("");
           }
 
 
