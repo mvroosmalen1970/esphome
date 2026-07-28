@@ -1,0 +1,16 @@
+esp32_ble_tracker:
+   scan_parameters:
+    duration: 10s
+    interval: 320ms
+    window: 320ms
+    active: true
+
+text_sensor:
+  - platform: ble_scanner
+    name: "Gevonden BLE Apparaten"
+
+esp32_ble:
+  max_connections: 4
+
+bluetooth_proxy:
+  active: true
