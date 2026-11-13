@@ -1,6 +1,6 @@
 sensor:
   - platform: wifi_signal
-    name: "waterput - WiFi Signal"
+    name: "ventilator - WiFi Signal"
     update_interval: 120s
 output:
   - platform: esp8266_pwm
@@ -15,14 +15,14 @@ fan:
 text_sensor:
   - platform: wifi_info
     ip_address:
-      name: "waterput IP-adres"
+      name: "ventilator IP-adres"
       id: ip_adres
       icon: mdi:ip-network
     ssid:
-      name: "waterput Netwerk"
+      name: "ventilator Netwerk"
       id: netwerk
       icon: mdi:access-point-network
     mac_address:
-      name: "waterput Mac-adres"
+      name: "ventilator Mac-adres"
       id: mac_adres
       icon: mdi:folder-key-network-outline
