@@ -1,0 +1,28 @@
+sensor:
+  - platform: wifi_signal
+    name: "waterput - WiFi Signal"
+    update_interval: 120s
+output:
+  - platform: esp8266_pwm
+    pin: GPIO5                # D1 (GPIO5) 
+    frequency: 1000 Hz
+    min_power: 0.10
+    id: fan_pwm_output
+fan:
+  - platform: speed
+    output: fan_pwm_output
+    name: "Ventilator"
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: "waterput IP-adres"
+      id: ip_adres
+      icon: mdi:ip-network
+    ssid:
+      name: "waterput Netwerk"
+      id: netwerk
+      icon: mdi:access-point-network
+    mac_address:
+      name: "waterput Mac-adres"
+      id: mac_adres
+      icon: mdi:folder-key-network-outline
