@@ -1,7 +1,3 @@
-sensor:
-  - platform: wifi_signal
-    name: "ventilator - WiFi Signal"
-    update_interval: 120s
 i2c:
   sda: D2      # GPIO4 groen
   scl: D5      # GPIO14 blauw
