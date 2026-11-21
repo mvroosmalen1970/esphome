@@ -2,6 +2,20 @@ sensor:
   - platform: wifi_signal
     name: "ventilator - WiFi Signal"
     update_interval: 120s
+i2c:
+  sda: D2      # GPIO4 groen
+  scl: D5      # GPIO14 blauw
+  scan: true
+sensor:
+  - platform: wifi_signal
+    name: "ventilator - WiFi Signal"
+    update_interval: 120s
+  - platform: htu21d
+    temperature:
+      name: "Badkamer Temperatuur"
+    humidity:
+      name: "Badkamer Luchtvochtigheid"
+    update_interval: 30s
 output:
   - platform: esp8266_pwm
     pin: GPIO5                # D1 (GPIO5) 
